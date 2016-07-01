@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+
+    <!-- Components included from testingutils.jar -->
+    <context:component-scan base-package="com.netaporter.test.utils.cucumber"/>
+    <context:component-scan base-package="com.netaporter.test.utils.pages"/>
+
+    <!--Components for this project (pages, steps etc)-->
+    <context:component-scan base-package="com.netaporter.pages"/>
+    <context:component-scan base-package="com.netaporter.cucumber.steps"/>
+
+    <context:annotation-config/>
+
+    <bean id="glueCodeScope" class="cucumber.runtime.java.spring.GlueCodeScope">
+    </bean>
+
+    <bean id="glueCodeScopeConfigurer" class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="cucumber-glue" value-ref="glueCodeScope"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="webDriverFactory" class="com.netaporter.test.utils.pages.driver.WebDriverFactory" scope="cucumber-glue">
+        <constructor-arg name="driverName"
+                         value="${webdriver:chrome}"/>  <!-- valid values: chrome or firefox or appium -->
+        <constructor-arg name="withProxy" value="false"/>
+    </bean>
+    <bean id="testCardFactory" class="com.netaporter.test.utils.factories.TestCardFactory" scope="cucumber-glue">
+    </bean>
+
+    <beans profile="desktop">
+        <import resource="scdesktop.xml"/>
+    </beans>
+
+    <beans profile="mobile">
+        <import resource="scmobile.xml"/>
+    </beans>
+    <beans profile="scdev">
+        <context:property-placeholder location="classpath:environments/scdev.properties" ignore-unresolvable="true"/>
+    </beans>
+    <beans profile="scfeat">
+        <context:property-placeholder location="classpath:environments/scfeat.properties" ignore-unresolvable="true"/>
+    </beans>
+    <beans profile="sclt">
+        <context:property-placeholder location="classpath:environments/sclt.properties" ignore-unresolvable="true"/>
+    </beans>
+    <beans profile="scltsaucelabs">
+        <context:property-placeholder location="classpath:environments/scltsaucelabs.properties" ignore-unresolvable="true"/>
+    </beans>
+    <beans profile="scprod1">
+        <context:property-placeholder location="classpath:environments/scprod1.properties" ignore-unresolvable="true"/>
+    </beans>
+    <beans profile="scprod2">
+        <context:property-placeholder location="classpath:environments/scprod2.properties" ignore-unresolvable="true"/>
+    </beans>
+
+
+</beans>

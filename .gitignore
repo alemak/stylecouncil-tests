@@ -1,0 +1,37 @@
+*.class
+.DS_Store
+*.log
+*.iml
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+
+# IntelliJ project files
+*.iml
+*.ipr
+*.iws
+.idea
+*.idea
+.idea*
+.idea/
+*.sptl
+
+# Eclipse project files
+.project
+.springBeans
+.classpath
+MANIFEST.MF
+.settings/
+
+# Cucumber+Selenium test results
+test-results/
+classes/
+build/
+out/
+target/
+.gradle/
+logs/
+rerun.txt

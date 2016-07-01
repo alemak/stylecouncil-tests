@@ -1,0 +1,24 @@
+task BuildABear()<<{
+    go()
+}
+task SanitySclt(dependsOn: ['environmentsclt','build','suiteSanity' ] )<< {
+    go()
+}
+task AllScltMobile(dependsOn: ['webdriverAppium','environmentmobile','build','suiteScAll' ] )<< {
+    go()
+}
+task SanityProd1(dependsOn: ['environmentscprod1','build','suiteSanity' ] )<< {
+    go()
+}
+task AllScDesktopLt(dependsOn: ['environmentsclt','build','suiteScDesktopAll' ] )<< {
+    go()
+}
+task AllScDesktopDev(dependsOn: ['environmentscdev','build','suiteScDesktopAll' ] )<< {
+    go()
+}
+task AllScIphoneDevSauceConnect (dependsOn: ['webdriverRemote','environmentscdev, mobile','build','suiteScIphoneAll' ] )<< {
+    go()
+}
+task AllScIphoneLt (dependsOn: ['webdriverRemote','environmentsclt, mobile','build','suiteScIphoneAll' ] )<< {
+    go()
+}

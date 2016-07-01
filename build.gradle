@@ -1,0 +1,58 @@
+project.description = 'Style Council Automated Tests'
+project.group = 'com.netaporter'
+project.version = "$version"
+//Use 'testrunner' plugin that contains tasks configuring the cucumber test run
+buildscript {
+    repositories {
+        maven { url 'http://artifactory.dave.net-a-porter.com:8081/artifactory/repo'}
+    }
+    dependencies {
+        classpath group: 'com.netaporter', name:'gradle-testrunner-plugin', version: '1.5-SNAPSHOT'
+    }
+}
+apply plugin: "java"
+apply plugin: "idea"
+apply plugin: "testrunner"
+
+def tstamp = new Date().format('yyyy-MM-dd_HH-mm-ss')
+logger.lifecycle "Starting build on ${tstamp}"
+
+project.ext.set('sourceCompatibility', "1.8")
+project.ext.set('targetCompatibility', "1.8")
+
+
+repositories {
+    maven { url 'http://artifactory.dave.net-a-porter.com:8081/artifactory/repo'}
+}
+
+
+dependencies {
+
+    compile group: 'com.netaporter', name:'testingutils', version: '2.2.4-SNAPSHOT', changing: true
+
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testRuntime
+    }
+}
+//disable the default gradle test task that would trigger junit tests
+test.enabled = false
+testconfig {
+    message = 'Hello from the project X'
+    brand = ""
+    webdriver = ""
+    region = ""
+    environment = ""
+    suite = ""
+    configFile = "testconfig.groovy"
+    rerunFile = "target/rerun.txt"
+    sauceconnectpath =  '../../Downloads/sc-4.3.15-osx/bin'
+    saucelabsuser = "stylecoucil"
+    saucelabsapikey = 'feb1462d-5098-4cb5-b64f-1d5ea2a197d3'
+}
+
+//Include the 'suites'gradle build file
+apply from: 'testsuites.gradle'
+
